@@ -50,7 +50,7 @@ export function ScentNotes() {
     const q = gsap.utils.selector(root)
     const reduced = reducedMotion()
     const notes = q('[data-note]') as HTMLElement[]
-    const ribbons = q('[data-ribbon-path]') as SVGPathElement[]
+    const ribbons = q('[data-ribbon-path]') as unknown as SVGPathElement[]
     const knot = q('[data-knot]')[0]
     const stage = q('.stage')[0] as HTMLElement
     const unit = () => stage.offsetWidth / 1440 // one Figma px, as rendered

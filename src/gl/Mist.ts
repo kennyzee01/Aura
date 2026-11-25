@@ -22,7 +22,10 @@ export class Mist {
   private parts: P[] = []
   private dpr = Math.min(window.devicePixelRatio || 1, 1.5)
 
-  constructor(public canvas: HTMLCanvasElement) {
+  canvas: HTMLCanvasElement
+
+  constructor(canvas: HTMLCanvasElement) {
+    this.canvas = canvas
     this.ctx = canvas.getContext('2d')!
     // one soft droplet-cloud sprite, reused for every particle
     this.puff = document.createElement('canvas')

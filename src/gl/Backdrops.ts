@@ -85,10 +85,10 @@ export class Backdrops {
   private start = performance.now()
   private dead = false
 
-  constructor(
-    public canvas: HTMLCanvasElement,
-    srcs: string[],
-  ) {
+  canvas: HTMLCanvasElement
+
+  constructor(canvas: HTMLCanvasElement, srcs: string[]) {
+    this.canvas = canvas
     this.renderer = new Renderer({ canvas, dpr: Math.min(window.devicePixelRatio, 1.5), alpha: false, antialias: false })
     const gl = this.renderer.gl
     gl.clearColor(0.1, 0.02, 0.04, 1)

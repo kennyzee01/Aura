@@ -103,10 +103,10 @@ export function Hero() {
   useGsap(root, () => {
     const q = gsap.utils.selector(root)
     const reduced = reducedMotion()
-    const fill = q('[data-curtain-fill]')[0] as SVGPathElement
-    const left = q('[data-curtain-l]')[0] as SVGPathElement
-    const right = q('[data-curtain-r]')[0] as SVGPathElement
-    const svg = q('[data-curtain]')[0] as SVGSVGElement
+    const fill = q('[data-curtain-fill]')[0] as unknown as SVGPathElement
+    const left = q('[data-curtain-l]')[0] as unknown as SVGPathElement
+    const right = q('[data-curtain-r]')[0] as unknown as SVGPathElement
+    const svg = q('[data-curtain]')[0] as unknown as SVGSVGElement
     const draw = (p: number) => {
       const d = curtainPaths(p)
       fill.setAttribute('d', d.fill)

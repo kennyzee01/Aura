@@ -1,4 +1,3 @@
-import type { gsap } from './motion'
 
 // The preloader owns the moment the curtain lifts; the hero owns what is
 // revealed underneath. This tiny bridge lets the hero's entrance start at an

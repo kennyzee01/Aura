@@ -1,0 +1,79 @@
+.btn {
+  --h: 57;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--h) * var(--u));
+  min-height: 46px;
+  padding: 0 calc(28 * var(--u));
+  border: 1px solid #fff;
+  border-radius: 12px;
+  color: #000;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: max(15px, calc(18 * var(--u)));
+  letter-spacing: 0.01em;
+  isolation: isolate;
+  box-shadow:
+    0 42px 107px 0 rgba(87, 177, 255, 0.34),
+    0 24.7px 32.3px 0 rgba(87, 177, 255, 0.19),
+    0 10.3px 13.4px 0 rgba(87, 177, 255, 0.22),
+    0 3.7px 4.8px 0 rgba(87, 177, 255, 0.15);
+  transition: box-shadow 0.6s var(--ease-out);
+  will-change: transform;
+}
+.lg {
+  --h: 72;
+  font-size: max(16px, calc(20 * var(--u)));
+}
+.btn:hover {
+  box-shadow:
+    0 42px 120px 0 rgba(87, 177, 255, 0.55),
+    0 24.7px 40px 0 rgba(87, 177, 255, 0.32),
+    0 10.3px 16px 0 rgba(87, 177, 255, 0.3),
+    0 3.7px 6px 0 rgba(87, 177, 255, 0.2);
+}
+.fill,
+.grain,
+.spot,
+.inner {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.fill {
+  z-index: -2;
+  background: linear-gradient(180deg, var(--cta-a), var(--cta-b));
+}
+.grain {
+  z-index: -1;
+  background-size: 307px 307px;
+  mix-blend-mode: plus-lighter;
+  opacity: 0.4;
+}
+.spot {
+  z-index: -1;
+  background: radial-gradient(
+    120px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.55),
+    transparent 70%
+  );
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  transition: opacity 0.5s var(--ease-out);
+}
+.btn:hover .spot {
+  opacity: 1;
+}
+.inner {
+  box-shadow:
+    inset 0 1px 18px 0 #d2eaff,
+    inset 0 1px 4px 0 #d2eaff;
+}
+.label {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+}

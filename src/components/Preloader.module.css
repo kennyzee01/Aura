@@ -1,0 +1,163 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  pointer-events: all;
+}
+
+/* the cream ground. On release a feathered hole opens in it from the centre
+   (--m grows 0 → 170): a soft, wide edge reads as mist clearing, not a wipe */
+.panel {
+  --m: 0;
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  background: var(--cream);
+  -webkit-mask-image: radial-gradient(
+    ellipse calc(var(--m) * 1vmax) calc(var(--m) * 0.78vmax) at 50% 52%,
+    transparent 38%,
+    #000 100%
+  );
+  mask-image: radial-gradient(
+    ellipse calc(var(--m) * 1vmax) calc(var(--m) * 0.78vmax) at 50% 52%,
+    transparent 38%,
+    #000 100%
+  );
+}
+/* warm light behind the mark: blush at its heart, a breath of copper around */
+.bloom {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 130vmax;
+  height: 92vmax;
+  margin: -46vmax 0 0 -65vmax;
+  background:
+    radial-gradient(closest-side at 46% 50%, rgba(240, 214, 205, 0.95), rgba(240, 214, 205, 0) 70%),
+    radial-gradient(closest-side at 58% 54%, rgba(214, 150, 112, 0.22), rgba(214, 150, 112, 0) 78%);
+  will-change: transform, opacity;
+}
+.grain {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  mix-blend-mode: soft-light;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* the mark, sized like a signature on a bottle box */
+.mark {
+  position: relative;
+  width: min(54vw, 760px, 118vh);
+}
+.mark > * {
+  position: absolute;
+  max-width: none;
+  display: block;
+}
+.word {
+  --r: 0;
+  transform-origin: var(--sx) var(--sy);
+  -webkit-mask-image: radial-gradient(
+    ellipse calc(var(--r) * 1%) calc(var(--r) * 3.05%) at var(--sx) var(--sy),
+    #000 55%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse calc(var(--r) * 1%) calc(var(--r) * 3.05%) at var(--sx) var(--sy),
+    #000 55%,
+    transparent 100%
+  );
+  will-change: transform, filter;
+}
+.star {
+  height: auto;
+  will-change: transform;
+}
+/* a soft copper bloom where the spark catches */
+.glow {
+  width: 22%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(226, 160, 112, 0.55), rgba(226, 160, 112, 0) 100%);
+  pointer-events: none;
+}
+/* the glint: one hairline of light across the star, like a facet catching */
+.flare {
+  width: 46%;
+  height: 1px;
+  translate: -50% -50%;
+  background: linear-gradient(90deg, rgba(201, 138, 90, 0), rgba(214, 160, 118, 0.9) 50%, rgba(201, 138, 90, 0));
+  pointer-events: none;
+}
+.tag {
+  height: auto;
+}
+.rules {
+  inset: 0;
+}
+.rule {
+  position: absolute;
+  height: max(1px, 0.42%);
+  background: linear-gradient(90deg, #3a0d10, #5b0f12);
+}
+/* each rule grows outward from the lettering */
+.ruleL {
+  transform-origin: 100% 50%;
+}
+.ruleR {
+  transform-origin: 0% 50%;
+}
+
+/* the count: set like the mark's own lettering — the house serif in its wine
+   ink, lining figures of equal width so nothing shifts as it rolls. Leading
+   zeros wait in the background; the 1 of 100 is the last to light. */
+.count {
+  --glint: 0;
+  left: 50%;
+  top: calc(100% + max(18px, 2.2vmin));
+  margin: 0;
+  translate: -50% 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.02em;
+  font-size: clamp(17px, 1.6vw, 25px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+  color: #5b0f12;
+  white-space: nowrap;
+  transform-origin: 50% 60%;
+  text-shadow: 0 0 calc(var(--glint) * 14px) rgba(214, 160, 118, calc(var(--glint) * 0.9));
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.count > span {
+  display: inline-block;
+  min-width: 0.62em;
+  text-align: center;
+  transition: opacity 0.4s ease;
+}
+.count > .dim {
+  opacity: 0.22;
+}
+.pct {
+  margin-left: 0.18em;
+  font-size: 0.62em;
+  letter-spacing: 0;
+  opacity: 0.7;
+  align-self: flex-start;
+  padding-top: 0.08em;
+}
+
+@media (max-width: 820px) {
+  .mark {
+    width: min(80vw, 520px);
+  }
+}

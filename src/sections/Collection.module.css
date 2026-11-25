@@ -1,0 +1,563 @@
+.collection {
+  position: relative;
+  z-index: 2;
+  /* transparent: it rises over the hero while the hero's own curtain opens
+     into cream, so the two sections share one continuous surface */
+  background: transparent;
+}
+
+.pin {
+  position: relative;
+  height: 100vh;
+  overflow: clip;
+}
+
+.lines {
+  position: absolute;
+  left: calc(41 * var(--u));
+  top: calc(560 * var(--u));
+  width: calc(1583 * var(--u));
+  height: calc(518 * var(--u));
+  transform: rotate(-12.58deg);
+  transform-origin: 0 0;
+  overflow: visible;
+}
+.lines path {
+  stroke: #ebe7e0;
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+}
+
+.grid {
+  position: absolute;
+  left: calc(211 * var(--u));
+  top: 50%;
+  width: calc(1018 * var(--u));
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: calc(58 * var(--u));
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+.nameMask {
+  display: block;
+  overflow: clip;
+  padding: 0.06em 0.04em 0.12em;
+  margin: -0.06em -0.04em -0.12em;
+}
+.name {
+  display: block;
+  font-size: calc(52 * var(--u));
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+  color: var(--grey-4);
+  white-space: nowrap;
+  transition: color 0.5s var(--ease-out);
+  will-change: transform;
+}
+.name.lit {
+  color: var(--accent, var(--ink));
+}
+
+/* full-viewport scene, clipped down to the card until it opens */
+.scene {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  clip-path: inset(50% 50% 50% 50%);
+  will-change: clip-path;
+}
+.inner {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  background: #1a0610;
+}
+.canvasHost,
+.canvas,
+.plateFallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.plateFallback {
+  object-fit: cover;
+  transition: opacity 0.9s var(--ease-io);
+}
+
+.titleSet {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.title {
+  position: absolute;
+  font-size: calc(150 * var(--u));
+  line-height: 1.07;
+  letter-spacing: -0.08em;
+  color: #fff;
+  white-space: nowrap;
+}
+.fgBox {
+  position: absolute;
+  width: calc(var(--fs) * var(--u));
+  height: calc(var(--fs) * var(--u));
+  pointer-events: none;
+}
+.fg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform, opacity;
+}
+
+/* the card's physical frame (border + drop shadow) rides on the clip */
+.frame {
+  position: absolute;
+  z-index: 3;
+  border: 4px solid #b0b0b0;
+  box-shadow: 0 9px 18px rgba(0, 0, 0, 0.21);
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* ── product UI ─────────────────────────────────────────────────────────── */
+.ui {
+  z-index: 4;
+  pointer-events: none;
+}
+.ui > * {
+  pointer-events: auto;
+}
+.ui .price,
+.ui .badge,
+.ui .usedBy,
+.ui .avatars,
+.ui .shop,
+.ui .index {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.8s var(--ease-out),
+    transform 1s var(--ease-out);
+}
+.uiOn .price,
+.uiOn .badge,
+.uiOn .usedBy,
+.uiOn .avatars,
+.uiOn .shop,
+.uiOn .index {
+  opacity: 1;
+  transform: none;
+}
+.uiOn .badge {
+  transition-delay: 0.08s;
+}
+.uiOn .usedBy {
+  transition-delay: 0.14s;
+}
+.uiOn .avatars {
+  transition-delay: 0.2s;
+}
+.uiOn .shop {
+  transition-delay: 0.26s;
+}
+
+.price {
+  position: absolute;
+  left: calc(600 * var(--u));
+  top: calc(262 * var(--u));
+  width: calc(144 * var(--u));
+  height: calc(47 * var(--u));
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-weight: 500;
+  font-size: calc(26 * var(--u));
+  line-height: 1.11;
+  color: #000;
+}
+.badge {
+  position: absolute;
+  left: calc(80 * var(--u));
+  top: calc(660 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: calc(6 * var(--u)) calc(10 * var(--u));
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--amber);
+  font-weight: 500;
+  font-size: max(13px, calc(18 * var(--u)));
+  line-height: 1.11;
+  animation: stamp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.badge img {
+  width: calc(12 * var(--u));
+  height: auto;
+}
+@keyframes stamp {
+  0% {
+    transform: scale(1.25) rotate(-4deg);
+    opacity: 0;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+.usedBy {
+  position: absolute;
+  left: calc(80 * var(--u));
+  top: calc(724 * var(--u));
+  font-weight: 500;
+  font-size: max(14px, calc(24 * var(--u)));
+  line-height: 1.27;
+  letter-spacing: 0.04em;
+  color: #cbcbcb;
+  white-space: nowrap;
+}
+.swap {
+  display: inline-block;
+  animation: swapIn 0.8s var(--ease-out);
+}
+@keyframes swapIn {
+  from {
+    transform: translateY(60%);
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+.avatars {
+  position: absolute;
+  left: calc(80 * var(--u));
+  top: calc(772 * var(--u));
+  display: flex;
+  gap: calc(9 * var(--u));
+}
+.avatar {
+  width: calc(58 * var(--u));
+  height: calc(58 * var(--u));
+  border-radius: 50%;
+  border: 1px solid #cfcfcf;
+  background: #fff;
+  overflow: hidden;
+  transition: transform 0.5s var(--ease-out);
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatars:hover .avatar {
+  transform: translateX(calc(var(--i, 0) * 4px));
+}
+.avatars .avatar:hover {
+  transform: translateY(-6px) scale(1.08);
+}
+.count {
+  display: grid;
+  place-items: center;
+  font-weight: 500;
+  font-size: calc(18 * var(--u));
+  color: var(--grey-1);
+  letter-spacing: 0.04em;
+}
+.count > * {
+  display: inline-flex;
+}
+.shop {
+  position: absolute;
+  left: calc(1097 * var(--u));
+  top: calc(773 * var(--u));
+}
+.shop a {
+  width: calc(238 * var(--u));
+  min-width: 170px;
+}
+
+/* side index — small, quiet, always tells you where you are */
+.index {
+  position: absolute;
+  right: calc(28 * var(--u));
+  top: 50%;
+  translate: 0 -50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.index button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: left;
+  transition: color 0.4s;
+}
+.indexNum {
+  font-variant-numeric: tabular-nums;
+}
+.indexName {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    max-width 0.6s var(--ease-out),
+    opacity 0.4s;
+}
+.index button:hover,
+.indexOn {
+  color: #fff !important;
+}
+.index button:hover .indexName,
+.indexOn .indexName {
+  max-width: 160px;
+  opacity: 1;
+}
+
+@media (max-width: 820px) {
+  .grid {
+    left: 6vw;
+    width: 88vw;
+    gap: 28px;
+  }
+  .row {
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 14px;
+  }
+  .name {
+    font-size: 26px;
+  }
+}
+
+.veil {
+  display: none;
+}
+
+/* ── phones, held upright: a composition of their own ─────────────────────
+   Read top to bottom like a fragrance advertisement in a magazine column:
+     the name, set large across the top, with the price as a quiet tag;
+     the bottle whole and centred, the glove reaching in from the right edge,
+     the lower arm dissolving into the dark;
+     the details and the call to action resting on a low veil of shadow.
+   Everything is placed in viewport units, so it holds from a 375 × 667
+   phone to a 430 × 932 one. */
+@media (max-width: 820px) and (orientation: portrait) {
+  .pin {
+    --lift: 0;
+    --gutter: 22px;
+    --title-top: calc(64px + 4.5svh); /* clear of the floating nav */
+    --ui-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    /* the details block (badge · line · avatars) + button, measured */
+    --ui-h: 168px;
+    /* the photograph, sized to the phone: big enough for the bottle's facets
+       to read, never so big it crops the bottle itself */
+    --mw: min(126vw, 61svh);
+    border-radius: 0 0 calc(var(--lift) * 30px) calc(var(--lift) * 30px);
+  }
+  .inner > :global(.stage),
+  .ui:global(.stage) {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
+  }
+  .fgBox {
+    --w: calc(var(--mw) * var(--mk));
+    width: var(--w);
+    height: var(--w);
+    /* bottle centred; its base rests just above the details block */
+    left: calc(50% - var(--mcx) * var(--w)) !important;
+    top: calc(100% - var(--ui-bottom) - var(--ui-h) + 6px - var(--mbase) * var(--w)) !important;
+  }
+  .fg {
+    /* the lower arm fades into the scene instead of ending on an edge */
+    -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 96%);
+    mask-image: linear-gradient(to bottom, #000 74%, transparent 96%);
+  }
+
+  /* the name: two lines, the second set off to the right (as on desktop) */
+  .titleSet {
+    z-index: 2;
+  }
+  .title {
+    font-size: clamp(42px, 13.2vw, 60px);
+    line-height: 1;
+    left: var(--gutter) !important;
+    top: var(--title-top) !important;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.22);
+  }
+  .title + .title {
+    left: auto !important;
+    right: var(--gutter);
+    top: calc(var(--title-top) + 0.92em) !important;
+  }
+
+  /* price: a small tag of glass, level with the first line of the name */
+  .price {
+    left: auto;
+    right: var(--gutter);
+    top: calc(var(--title-top) + 10px);
+    width: auto;
+    height: 28px;
+    padding: 0 11px;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.18);
+  }
+  .price * {
+    font-size: 14px;
+  }
+
+  /* the veil the details rest on */
+  .veil {
+    display: block;
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 3;
+    height: calc(var(--ui-h) + var(--ui-bottom) + 90px);
+    background: linear-gradient(to bottom, rgba(12, 3, 7, 0), rgba(12, 3, 7, 0.46) 48%, rgba(12, 3, 7, 0.7));
+    opacity: 0;
+    transition: opacity 0.9s var(--ease-out);
+    pointer-events: none;
+  }
+  .veilOn {
+    opacity: 1;
+  }
+
+  /* details: badge, then the line, then the faces — one quiet column */
+  .badge {
+    left: var(--gutter);
+    top: auto;
+    bottom: calc(var(--ui-bottom) + 50px + 22px + 30px + 12px + 16px + 12px);
+    gap: 5px;
+    padding: 4px 9px 4px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+  }
+  .badge img {
+    width: 9px;
+  }
+  .usedBy {
+    left: var(--gutter);
+    top: auto;
+    bottom: calc(var(--ui-bottom) + 50px + 22px + 30px + 12px);
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .avatars {
+    left: var(--gutter);
+    top: auto;
+    bottom: calc(var(--ui-bottom) + 50px + 22px);
+    gap: 0;
+  }
+  .avatar {
+    width: 30px;
+    height: 30px;
+    margin-right: -7px;
+    border: 1.5px solid rgba(20, 6, 10, 0.85);
+  }
+  .count {
+    width: auto;
+    min-width: 30px;
+    margin: 0 0 0 4px;
+    padding: 0 9px;
+    border-radius: 999px;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .count,
+  .count > * {
+    display: inline-flex;
+    align-items: center;
+  }
+  .shop {
+    left: var(--gutter);
+    right: var(--gutter);
+    top: auto;
+    bottom: var(--ui-bottom);
+    width: auto;
+  }
+  .shop a {
+    width: 100%;
+    min-width: 0;
+    height: 50px;
+    min-height: 0;
+    border-radius: 14px;
+    font-size: 15px;
+  }
+
+  /* where you are among the four: four hairlines on the right edge */
+  .index {
+    display: flex;
+    right: 10px;
+    top: auto;
+    bottom: calc(var(--ui-bottom) + 50px + 26px);
+    translate: none;
+    gap: 0;
+  }
+  .index button {
+    width: 28px;
+    height: 16px;
+    justify-content: flex-end;
+    padding: 0;
+  }
+  .index button::after {
+    content: '';
+    width: 10px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: rgba(255, 255, 255, 0.4);
+    transition:
+      width 0.5s var(--ease-out),
+      background-color 0.4s;
+  }
+  .index .indexOn::after {
+    width: 22px;
+    background: #fff;
+  }
+  .index .indexNum,
+  .index .indexName {
+    display: none;
+  }
+}
+
+/* phones on their side keep the wide composition; the button just must not
+   run off the right edge */
+@media (orientation: landscape) and (max-height: 500px) {
+  .shop a {
+    min-width: 140px;
+  }
+}

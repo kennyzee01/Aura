@@ -1,0 +1,34 @@
+.odo {
+  display: inline-flex;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.slot {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  height: 1.12em;
+  line-height: 1.12;
+  vertical-align: top;
+}
+.sizer {
+  visibility: hidden;
+}
+.col {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.col span {
+  display: block;
+  height: 1.12em;
+  /* old-style figures descend: keep each one inside its own cell, so the
+     digit above never leaves a sliver over the one showing */
+  overflow: hidden;
+  text-align: center;
+}

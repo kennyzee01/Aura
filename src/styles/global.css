@@ -1,0 +1,148 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   AURA — design tokens & base
+   The Figma board is drawn on a 1440 × 900 frame. `--u` is one Figma pixel,
+   bounded by both viewport width and height so full-screen "stages" always
+   keep their composition. Full-bleed imagery is sized separately (cover).
+   ──────────────────────────────────────────────────────────────────────────── */
+:root {
+  --u: min(100vw / 1440, 100vh / 860);
+  --uw: calc(100vw / 1440); /* width-only unit for flowing (non-stage) sections */
+
+  --cream: #f8f4ee;
+  --cream-2: #f5ede2;
+  --ink: #000006;
+  --ink-2: #2e2e2e;
+  --grey-1: #363636;
+  --grey-2: #535353;
+  --grey-3: #6d6d6d;
+  --grey-4: #9a9a9a;
+  --line: #b6b6b6;
+  --lavender: #b4c3ff;
+  --notes-bg: #ddedf0;
+  --blush: #f0e0dd;
+  --oxblood: #5b0f12;
+  --amber: #e38100;
+  --cta-a: #0073ff;
+  --cta-b: #0da2ff;
+
+  --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+  --sans: 'Manrope', system-ui, sans-serif;
+
+  /* one easing vocabulary for the whole site */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* expo.out */
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1); /* power3.inOut */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  overflow-x: clip;
+}
+
+img {
+  display: block;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cta-a);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.serif {
+  font-family: var(--serif);
+  font-weight: 600;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* The art-directed 1440×900 frame, centred in a full-viewport scene */
+.stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(1440 * var(--u));
+  height: calc(900 * var(--u));
+  transform: translate(-50%, -50%);
+}
+
+/* SplitText reveal masks. The serif is set tight (line-height ≈ 0.9), so a
+   mask the size of the line box would shave off ascenders, the apostrophe,
+   the tail of J/y/p and the overhang of italics. Each mask is padded outward
+   and the padding cancelled with negative margin: the glyphs get room to
+   breathe while the layout stays exactly as designed. */
+.line-mask,
+.word-mask,
+.char-mask {
+  overflow: clip;
+  padding: 0.16em 0.08em 0.24em;
+  margin: -0.16em -0.08em -0.24em;
+}
+
+/* hide the native cursor only when the custom one is active */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* wide decorative strokes (ribbons) may bleed past the viewport — never let them widen the page */
+main {
+  overflow-x: clip;
+}

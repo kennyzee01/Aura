@@ -1,0 +1,500 @@
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 560px;
+  overflow: clip;
+  background: #5d97e0; /* the sky's own mid-blue, never seen unless images fail */
+  perspective: 1400px;
+}
+/* one sky, full-bleed. It is overscanned so parallax and the intro's scale
+   can never pull an edge into view. */
+.skyFull {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.fill {
+  position: absolute;
+  inset: -5%;
+}
+.cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+  will-change: transform;
+}
+
+/* Figma: image group at (-19,-24) 1481×1119 — the cut-out has that exact aspect */
+.modelBox {
+  position: absolute;
+  left: calc(-19 * var(--u));
+  top: calc(-24 * var(--u));
+  width: calc(1481 * var(--u));
+  height: calc(1119 * var(--u));
+  transform-origin: 35% 60%;
+  will-change: transform;
+}
+.model,
+.pose {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.pose {
+  /* she lowers and lifts from the shoulder: pivot near her head */
+  transform-origin: 74% 16%;
+}
+.modelImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+/* the same crop of the bottle in each scent; the incoming one fills upward */
+.bottle {
+  --reveal: 1;
+  position: absolute;
+  max-width: none;
+  mask-image: linear-gradient(to top, #000 calc(var(--reveal) * 140% - 40%), transparent calc(var(--reveal) * 140%));
+  -webkit-mask-image: linear-gradient(to top, #000 calc(var(--reveal) * 140% - 40%), transparent calc(var(--reveal) * 140%));
+}
+.light {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  background: radial-gradient(
+    circle at var(--lx, 40%) var(--ly, 55%),
+    rgba(255, 246, 230, 0.7) 0%,
+    rgba(255, 236, 210, 0.22) 14%,
+    transparent 34%
+  );
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity 1.2s var(--ease-out);
+  pointer-events: none;
+}
+.ready .light {
+  opacity: 1;
+}
+
+.copy {
+  position: absolute;
+  left: calc(80 * var(--u));
+  top: calc(219 * var(--u));
+  width: calc(560 * var(--u));
+  will-change: transform;
+}
+.headline {
+  font-size: calc(78 * var(--u));
+  line-height: 0.96;
+  letter-spacing: -0.08em;
+  color: var(--ink);
+  word-spacing: 0.04em;
+}
+.sub {
+  margin-top: calc(10 * var(--u));
+  width: calc(373 * var(--u));
+  font-size: max(15px, calc(20 * var(--u)));
+  line-height: 1.27;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+.cta {
+  margin-top: calc(32 * var(--u));
+}
+.cta a {
+  width: calc(277 * var(--u));
+  min-width: 220px;
+}
+
+/* product carousel: Figma (977, 394) — cards overflow the frame on purpose */
+.cardsViewport {
+  position: absolute;
+  left: calc(977 * var(--u));
+  top: calc(352 * var(--u));
+  width: calc(720 * var(--u));
+  height: calc(380 * var(--u));
+  perspective: 1000px;
+}
+.track {
+  display: flex;
+  column-gap: calc(31 * var(--u));
+  will-change: transform;
+}
+.card {
+  flex: none;
+  width: calc(304 * var(--u));
+  height: calc(371 * var(--u));
+  perspective: 800px;
+}
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #838383;
+  border-radius: calc(24 * var(--u));
+  background: rgba(255, 255, 255, 0.53);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.cardImg {
+  position: absolute;
+  left: calc(4 * var(--u));
+  top: calc(6 * var(--u));
+  width: calc(292 * var(--u));
+  height: calc(292 * var(--u));
+  border-radius: calc(18 * var(--u));
+  overflow: hidden;
+  transform: translateZ(20px);
+}
+.cardImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 1.2s var(--ease-out);
+}
+.card:hover .cardImg img {
+  transform: scale(1.1);
+}
+.glare {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, 0.35), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.card:hover .glare {
+  opacity: 1;
+}
+.shop {
+  position: absolute;
+  left: 50%;
+  top: calc(317 * var(--u));
+  width: calc(286 * var(--u));
+  height: calc(42 * var(--u));
+  min-height: 34px;
+  transform: translateX(-50%) translateZ(14px);
+  border: 1px solid #16bcff;
+  border-radius: 12px;
+  box-shadow:
+    -0.25px -0.25px 1px #005c82,
+    0.25px 0.25px 1px #005c82,
+    0 0 3px rgba(22, 188, 255, 0.6);
+  color: #001d29;
+  font-weight: 600;
+  font-size: max(13px, calc(16 * var(--u)));
+  overflow: hidden;
+  display: grid;
+  transition:
+    background-color 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
+}
+.shop span {
+  grid-area: 1 / 1;
+  align-self: center;
+  transition: transform 0.6s var(--ease-out);
+}
+.shop span:last-child {
+  transform: translateY(150%);
+}
+.shop:hover {
+  background: rgba(22, 188, 255, 0.12);
+  box-shadow:
+    -0.25px -0.25px 1px #005c82,
+    0.25px 0.25px 1px #005c82,
+    0 0 18px rgba(22, 188, 255, 0.55);
+}
+.shop:hover span:first-child {
+  transform: translateY(-150%);
+}
+.shop:hover span:last-child {
+  transform: translateY(0);
+}
+
+
+
+
+
+/* ── presenter capsule: caption + circular progress + arrows ───────────────── */
+.switch {
+  position: absolute;
+  left: calc(977 * var(--u));
+  top: calc(742 * var(--u));
+  width: calc(383 * var(--u));
+  min-width: 300px;
+  height: calc(64 * var(--u));
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 calc(10 * var(--u)) 0 calc(24 * var(--u));
+  border: 1px solid rgba(255, 186, 186, 0.9);
+  border-radius: 999px;
+  background: rgba(255, 239, 215, 0.62);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: 0 18px 40px -24px rgba(20, 40, 90, 0.45);
+}
+.caption {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  align-items: baseline;
+  min-width: 0;
+}
+.capIndex {
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-size: max(11px, calc(12 * var(--u)));
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.capIndex i {
+  font-style: normal;
+  color: var(--grey-4);
+}
+.capName {
+  font-size: max(19px, calc(25 * var(--u)));
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: visible;
+}
+.capPrice {
+  font-size: max(11px, calc(13 * var(--u)));
+  letter-spacing: 0.06em;
+  color: var(--grey-2);
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+.arrow {
+  display: grid;
+  place-items: center;
+  width: max(34px, calc(38 * var(--u)));
+  height: max(34px, calc(38 * var(--u)));
+  border-radius: 50%;
+  color: var(--ink);
+  transition:
+    background-color 0.5s var(--ease-out),
+    transform 0.6s var(--ease-out);
+}
+.arrow svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.6s var(--ease-out);
+}
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+.arrow:first-child:hover svg {
+  transform: translateX(-3px);
+}
+.arrow:last-child:hover svg {
+  transform: translateX(3px);
+}
+.arrow:active {
+  transform: scale(0.9);
+}
+.arrow:focus-visible {
+  outline: 1.5px solid var(--ink);
+  outline-offset: 2px;
+}
+.ring {
+  width: max(38px, calc(44 * var(--u)));
+  height: max(38px, calc(44 * var(--u)));
+  overflow: visible;
+  transform: rotate(-90deg);
+}
+.ringTrack,
+.ringBar {
+  fill: none;
+  stroke-width: 1.5;
+}
+.ringTrack {
+  stroke: rgba(0, 0, 6, 0.16);
+}
+.ringBar {
+  stroke: var(--ink);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  stroke-linecap: round;
+}
+.tick {
+  fill: rgba(0, 0, 6, 0.28);
+  transition: r 0.5s var(--ease-out);
+}
+.tickOn {
+  fill: var(--ink);
+}
+
+/* ── the seam between hero and collection ──────────────────────────────────── */
+.curtain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 6;
+  pointer-events: none;
+  overflow: visible;
+}
+.curtainFill {
+  fill: var(--cream);
+}
+.curtainLine {
+  fill: none;
+  stroke: var(--lavender);
+  stroke-width: var(--sw, 42px);
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* phones (kept last so it overrides the base rules above) */
+@media (max-width: 820px) {
+  /* phones: lay the hero out against the screen, not the 1440 frame (which
+     would be a thin strip across the middle) */
+  .hero > :global(.stage) {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
+  }
+  /* the model is framed so hand, bottle and face all stay in shot: the photo
+     runs from her hand (~19% in) to her face (~71%), so the width is held
+     where both fit, and the bottle rests clear of the product bar */
+  .hero {
+    --mw: min(150vw, 74svh);
+    --mh: calc(var(--mw) * 128 / 170);
+    --hl: clamp(44px, 12.5vw, 64px);
+    /* bottom of the copy block: top + two headline lines + sub + button */
+    --copy-end: calc(112px + 1.92 * var(--hl) + 94px);
+  }
+  @media (max-height: 740px) {
+    /* short phones (SE-class): give the copy and the product bar their room
+       above her, rather than letting the bar sit across her face */
+    .hero {
+      --mw: min(150vw, 60svh);
+    }
+  }
+  .modelBox {
+    left: calc(4px - 0.19 * var(--mw));
+    top: auto;
+    bottom: -2svh;
+    width: var(--mw);
+    height: var(--mh);
+  }
+  .copy {
+    left: 22px;
+    top: 112px;
+    width: calc(100vw - 44px);
+  }
+  .headline {
+    font-size: clamp(44px, 12.5vw, 64px);
+  }
+  .sub {
+    width: 100%;
+    max-width: 330px;
+    font-size: 15px;
+  }
+  .cardsViewport {
+    display: none;
+  }
+  .switch {
+    left: 16px;
+    right: 16px;
+    /* floats in the open sky between the copy and the model, like a tag hung
+       beside her — never over the bottle */
+    top: max(calc(var(--copy-end) + 22px), calc(102svh - var(--mh) - 70px));
+    bottom: auto;
+    width: auto;
+    height: 60px;
+  }
+  .capName {
+    font-size: 21px;
+  }
+}
+
+/* phones on their side: a split frame — the words on the left, the model on
+   the right with hand, bottle and face in shot, the product bar under the
+   copy. (Neither the portrait layout nor the 1440 frame fits a 375px-tall
+   screen.) */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero {
+    min-height: 0; /* the whole hero in one screen, not a 560px page */
+  }
+  .hero > :global(.stage) {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
+  }
+  .modelBox {
+    --mh: 104svh;
+    top: auto;
+    bottom: -4svh;
+    left: auto;
+    right: -4vw;
+    height: var(--mh);
+    width: calc(var(--mh) * 170 / 128);
+  }
+  .copy {
+    left: max(24px, env(safe-area-inset-left));
+    top: 78px;
+    width: 42vw;
+  }
+  .headline {
+    font-size: clamp(28px, 9.4svh, 40px);
+  }
+  .sub {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 6px;
+    font-size: 13px;
+  }
+  .cta {
+    margin-top: 14px;
+  }
+  .cta a {
+    min-width: 0;
+    width: 200px;
+  }
+  .cardsViewport {
+    display: none;
+  }
+  .switch {
+    left: max(24px, env(safe-area-inset-left));
+    right: auto;
+    top: auto;
+    bottom: 34px; /* clear of the curtain crest */
+    width: min(42vw, 340px);
+    min-width: 0;
+    height: 52px;
+    min-height: 0;
+  }
+  .capName {
+    font-size: 18px;
+  }
+}

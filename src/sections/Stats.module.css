@@ -1,0 +1,108 @@
+.stats {
+  position: relative;
+  z-index: 2;
+  background: var(--cream);
+  padding: calc(217 * var(--uw)) calc(80 * var(--uw));
+}
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: calc(38 * var(--uw));
+}
+.row {
+  position: relative;
+  height: calc(130 * var(--uw));
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc(41 * var(--uw)) 0 calc(76 * var(--uw));
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--cream-2);
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    background-color 0.6s var(--ease-out),
+    transform 0.8s var(--ease-out),
+    border-color 0.6s;
+  outline-offset: 6px;
+}
+.row:hover,
+.row:focus-visible {
+  background: #f2e4d2;
+  border-color: #a99a86;
+  transform: translateY(-3px);
+}
+.peek {
+  position: absolute;
+  z-index: -1;
+  right: calc(230 * var(--uw));
+  top: 100%;
+  width: calc(260 * var(--uw));
+  height: auto;
+  opacity: 0.9;
+  transform: translateY(10%) rotate(-8deg);
+  transition: transform 1s var(--ease-out);
+  pointer-events: none;
+}
+.row:hover .peek,
+.row:focus-visible .peek {
+  transform: translateY(-62%) rotate(-3deg);
+}
+.label {
+  font-size: calc(52 * var(--uw));
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+  color: var(--grey-2);
+  white-space: nowrap;
+  transition: color 0.5s;
+}
+.row:hover .label {
+  color: var(--ink);
+}
+.figure {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(14 * var(--uw));
+  text-align: right;
+}
+.value {
+  font-size: calc(68 * var(--uw));
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+  color: #000;
+}
+.caption {
+  font-size: max(13px, calc(20 * var(--uw)));
+  line-height: 1.27;
+  letter-spacing: 0.04em;
+  color: var(--grey-1);
+  white-space: nowrap;
+}
+
+@media (max-width: 820px) {
+  .stats {
+    padding: 44px 16px 96px;
+  }
+  .row {
+    height: auto;
+    padding: 22px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .label {
+    font-size: 30px;
+    white-space: normal;
+  }
+  .figure {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .value {
+    font-size: 44px;
+  }
+}
